@@ -224,7 +224,7 @@ const Home = () => {
                             id="welcome-leaves"
                         />
                         <div className="welcome-text">
-                            <h1>Tamaq</h1>
+                            <h1>TamaqDana</h1>
                             <p>
                                 Our service will help you quickly and accurately
                                 determine the composition of food for a healthy
