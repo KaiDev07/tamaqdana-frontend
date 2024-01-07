@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useSignup } from '../hooks/useSignup'
 import { useLogin } from '../hooks/useLogin'
 import { useAuthContext } from '../hooks/useAuthContext'
 import { useLogout } from '../hooks/useLogout'
 
-import headerLogo from '../images/header-logo.svg'
+import Navbar from '../components/Navbar'
+
+import { ADMIN } from '../App'
+
 import welcomeLeaves from '../images/welcome-leaves.svg'
 import welcomeVeg from '../images/welcome-veg.png'
 import welcomeUsers from '../images/weclome-users.svg'
@@ -150,71 +154,14 @@ const Home = () => {
 
     return (
         <>
-            <header>
-                <div className="header-wrapper">
-                    <div className="header-flex">
-                        <nav>
-                            <div className="header-link-container">
-                                <a href="#welcome">Main</a>
-                            </div>
-                            <div className="header-link-container">
-                                <a href="#explore">Explore</a>
-                            </div>
-                            <div className="header-link-container">
-                                <a href="#testimonials">About Us</a>
-                            </div>
-                            <div className="header-link-container">
-                                <a href="#footer">Contacts</a>
-                            </div>
-                        </nav>
-                        <div className="header-other">
-                            <span className="lang-change">
-                                <div className="header-lang-change-container">
-                                    <a href="#">kz</a>
-                                </div>
-                                <b>|</b>
-                                <div className="header-lang-change-container">
-                                    <a href="#">ru</a>
-                                </div>
-                                <b>|</b>
-                                <div className="header-lang-change-container">
-                                    <a href="#">eng</a>
-                                </div>
-                            </span>
-                            <div
-                                className="burger-menu"
-                                onClick={() =>
-                                    mobileNav.current.classList.toggle(
-                                        'is-active'
-                                    )
-                                }
-                            >
-                                <i className="fa-solid fa-bars fa-2xl"></i>
-                            </div>
-                            <div id="header-circle">
-                                <i className="fa-solid fa-magnifying-glass fa-2xl search-icon"></i>
-                            </div>
-                            {user && (
-                                <div className="userDiv" id="userDivId">
-                                    <span>{user.email}</span>
-                                    <button onClick={userLogout}>
-                                        Log out
-                                    </button>
-                                </div>
-                            )}
-                            {!user && (
-                                <button
-                                    id="header-btn"
-                                    onClick={showFormCanvas}
-                                >
-                                    Log in
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                    <img src={headerLogo} alt="logo" id="header-logo" />
-                </div>
-            </header>
+            <Navbar
+                mobileNav={mobileNav}
+                userLogout={userLogout}
+                showFormCanvas={showFormCanvas}
+                firstLink={'#welcome'}
+                secondLink={'#testimonials'}
+                thirdLink={'#footer'}
+            />
             <main>
                 <section id="welcome">
                     <div className="welcome-wrapper">
@@ -540,13 +487,13 @@ const Home = () => {
                             <h2>Navigation</h2>
                             <ul>
                                 <li>
-                                    <a href="#">About us</a>
+                                    <a>About us</a>
                                 </li>
                                 <li>
-                                    <a href="#">Service</a>
+                                    <a>Service</a>
                                 </li>
                                 <li>
-                                    <a href="#">Menu</a>
+                                    <a>Menu</a>
                                 </li>
                             </ul>
                         </div>
@@ -554,13 +501,13 @@ const Home = () => {
                             <h2>Resources</h2>
                             <ul>
                                 <li>
-                                    <a href="#">Reviews</a>
+                                    <a>Reviews</a>
                                 </li>
                                 <li>
-                                    <a href="#">Blog</a>
+                                    <a>Blog</a>
                                 </li>
                                 <li>
-                                    <a href="#">Update News</a>
+                                    <a>Update News</a>
                                 </li>
                             </ul>
                         </div>
@@ -610,21 +557,26 @@ const Home = () => {
                         }
                     ></i>
                 </div>
-                <a href="#">Products</a>
-                <a href="#">Service</a>
-                <a href="#">About Us</a>
-                <a href="#">Contacts</a>
+                <Link to="/products">Products</Link>
+                <a href="#welcome">Service</a>
+                <a href="#testimonials">About Us</a>
+                {user?.email === ADMIN ? (
+                    <Link to="/admin">ADMIN</Link>
+                ) : (
+                    <a href="#footer">Contacts</a>
+                )}
+
                 <span className="lang-change">
                     <div className="header-lang-change-container">
-                        <a href="#">kz</a>
+                        <a>kz</a>
                     </div>
                     <b>|</b>
                     <div className="header-lang-change-container">
-                        <a href="#">ru</a>
+                        <a>ru</a>
                     </div>
                     <b>|</b>
                     <div className="header-lang-change-container">
-                        <a href="#">eng</a>
+                        <a>eng</a>
                     </div>
                 </span>
                 {user && (
@@ -705,7 +657,7 @@ const Home = () => {
                             <div className="help-text">
                                 <p>By signing up, you agree to our</p>
                                 <p>
-                                    <a href="#">Terms of service</a>
+                                    <a>Terms of service</a>
                                 </p>
                             </div>
                         </div>
@@ -750,7 +702,7 @@ const Home = () => {
                             {error2 && <div className="error">{error2}</div>}
                             <div className="help-text">
                                 <p>
-                                    <a href="#">Forgot your password?</a>
+                                    <a>Forgot your password?</a>
                                 </p>
                             </div>
                         </div>

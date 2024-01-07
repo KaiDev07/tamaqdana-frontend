@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Rosario:wght@700&display=swap'); /* font-family: 'DM Sans', sans-serif; font-family: 'Rosario', sans-serif; */
 @import url('https://fonts.googleapis.com/css?family=Raleway:400,100,200,300');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap');
 
 html {
     scroll-behavior: smooth;
@@ -952,6 +953,107 @@ div.error {
     padding: 8px 20px;
 }
 
+.products-home {
+    width: 50%;
+    margin: 0 auto 50px;
+}
+
+.products-div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.product-details {
+    font-family: 'Poppins';
+    background: #fff;
+    border-radius: 4px;
+    width: 100%;
+    padding: 20px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.product-details h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.2em;
+    color: black;
+}
+
+.product-details p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.product-details span {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    background: #f1f1f1;
+    padding: 6px;
+    border-radius: 50%;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-details span img {
+    width: 25px;
+}
+
+.create {
+    margin-bottom: 100px;
+}
+
+.create h3,
+.create label {
+    font-size: 22px;
+    font-family: 'Poppins';
+    text-align: center;
+}
+
+.create label {
+    font-size: 16px;
+}
+
+.create label,
+.create input,
+.create button {
+    display: block;
+}
+.create input {
+    padding: 10px;
+    margin: 10px auto 20px;
+    width: 80%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.create button {
+    background: #1aac83;
+    border: 0;
+    color: #fff;
+    padding: 10px 15px;
+    font-family: 'Poppins';
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 auto;
+}
+
+.create input.error {
+    border: 1px solid #e7195a;
+}
+
+.create div.error {
+    display: block;
+    width: 80%;
+    margin: 25px auto 0;
+}
+
 @media only screen and (max-width: 1024px) {
     .header-wrapper {
         padding: 40px;
@@ -1133,6 +1235,10 @@ div.error {
         font-size: 3.7rem;
         line-height: 75px;
     }
+
+    .products-home {
+        width: 65%;
+    }
 }
 
 @media only screen and (min-width: 1025px) and (max-width: 1440px) {
@@ -1262,6 +1368,10 @@ div.error {
         left: 50%;
         transform: translateX(-50%);
         bottom: -40%;
+    }
+
+    .products-home {
+        width: 75%;
     }
 }
 
