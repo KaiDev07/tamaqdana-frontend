@@ -97,10 +97,7 @@ const Products = () => {
                         </div>
                         <div className="footer-info">
                             <h2>Contact Us</h2>
-                            <p>
-                                Email: tamaqdana@gmail.com <br />
-                                Tel: + 7 700 270 66 17
-                            </p>
+                            <p>Email: tamaqdana@gmail.com</p>
                             <div className="footer-social-media">
                                 <i
                                     className="fa-brands fa-facebook-f fa-2xl"
