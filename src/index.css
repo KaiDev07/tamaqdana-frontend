@@ -10,6 +10,30 @@ html {
     box-sizing: border-box;
 }
 
+/*** Works on common browsers ***/
+::selection {
+    background-color: #09a66d;
+}
+
+/*** Mozilla based browsers ***/
+::-moz-selection {
+    background-color: #09a66d;
+}
+
+/***For Other Browsers ***/
+::-o-selection {
+    background-color: #09a66d;
+}
+
+::-ms-selection {
+    background-color: #09a66d;
+}
+
+/*** For Webkit ***/
+::-webkit-selection {
+    background-color: #09a66d;
+}
+
 body {
     padding: 0;
     margin: 0;
@@ -47,8 +71,10 @@ nav a {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-30%, -50%);
+    transform: translate(-48%, -50%);
     z-index: 3;
+    width: 100px;
+    mix-blend-mode: multiply;
 }
 
 .header-other {
@@ -600,12 +626,12 @@ header a:active {
     width: 40%;
     display: flex;
     justify-content: center;
-    gap: 4rem;
+    gap: 2rem;
     align-items: center;
 }
 
 .footer-logo img {
-    width: 100px;
+    width: 120px;
 }
 
 .footer-logo h2 {

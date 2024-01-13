@@ -1,8 +1,7 @@
 import { useProductsContext } from '../hooks/useProductsContext'
 import { useAuthContext } from '../hooks/useAuthContext'
-import { URL } from '../App'
+import { URL, ADMIN } from '../App'
 import binIcon from '../images/bin.png'
-import { ADMIN } from '../App'
 
 const ProductDetails = ({ product }) => {
     const { dispatch } = useProductsContext()

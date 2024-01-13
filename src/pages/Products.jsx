@@ -7,7 +7,7 @@ import ProductDetails from '../components/ProductDetails'
 import Navbar from '../components/Navbar'
 import { URL, ADMIN } from '../App'
 
-import footerLogo from '../images/footer-logo.svg'
+import footerLogo from '../images/footer-logo.jpeg'
 
 const Products = () => {
     const { products, dispatch } = useProductsContext()

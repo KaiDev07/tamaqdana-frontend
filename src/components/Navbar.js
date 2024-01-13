@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useAuthContext } from '../hooks/useAuthContext'
 
-import headerLogo from '../images/header-logo.svg'
+import headerLogo from '../images/header-logo.jpeg'
 
 import { ADMIN } from '../App'
 

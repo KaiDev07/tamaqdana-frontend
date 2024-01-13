@@ -23,7 +23,7 @@ import testimonialsPerson from '../images/testimonials-person.PNG'
 import downloadPhone from '../images/download-phone.PNG'
 import downloadAppstore from '../images/download-appstore.svg'
 import downloadGoogleplay from '../images/download-googleplay.svg'
-import footerLogo from '../images/footer-logo.svg'
+import footerLogo from '../images/footer-logo.jpeg'
 
 const Home = () => {
     const [email1, setEmail1] = useState('')
