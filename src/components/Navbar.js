@@ -12,6 +12,7 @@ const Navbar = ({
     firstLink,
     secondLink,
     thirdLink,
+    isLoading3,
 }) => {
     const { user } = useAuthContext()
 
@@ -68,8 +69,15 @@ const Navbar = ({
                         </div>
                         {user && (
                             <div className="userDiv" id="userDivId">
-                                <span>{user.email}</span>
-                                <button onClick={userLogout}>Log out</button>
+                                <span>
+                                    {user.email ? user.email : user.name}
+                                </span>
+                                <button
+                                    onClick={userLogout}
+                                    disabled={isLoading3}
+                                >
+                                    Log out
+                                </button>
                             </div>
                         )}
                         {!user && (

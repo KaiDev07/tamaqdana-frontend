@@ -6,23 +6,22 @@ import { useLogout } from '../hooks/useLogout'
 import ProductDetails from '../components/ProductDetails'
 import Navbar from '../components/Navbar'
 import { URL, ADMIN } from '../App'
+import api from '../http/api'
 
 import footerLogo from '../images/footer-logo.jpeg'
 
 const Products = () => {
     const { products, dispatch } = useProductsContext()
     const { user } = useAuthContext()
-    const { logout } = useLogout()
+    const { isLoading3, logout } = useLogout()
 
     useEffect(() => {
         const fetchProducts = async () => {
-            const response = await fetch(`${URL}/products`, {
-                headers: { Authorization: `bearer ${user.token}` },
-            })
-            const json = await response.json()
-
-            if (response.ok) {
-                dispatch({ type: 'SET_PRODUCTS', payload: json })
+            try {
+                const response = await api.get(`${URL}/products`)
+                dispatch({ type: 'SET_PRODUCTS', payload: response.data })
+            } catch (error) {
+                console.log(error.response.data.error)
             }
         }
 
@@ -33,8 +32,8 @@ const Products = () => {
 
     const mobileNav = useRef()
 
-    const userLogout = () => {
-        logout()
+    const userLogout = async () => {
+        await logout()
     }
 
     return (
@@ -46,6 +45,7 @@ const Products = () => {
                 firstLink={'/'}
                 secondLink={null}
                 thirdLink={null}
+                isLoading3={isLoading3}
             />
             <main>
                 <div className="products-home">
@@ -161,8 +161,10 @@ const Products = () => {
                 </span>
                 {user && (
                     <div className="userDiv">
-                        <span>{user.email}</span>
-                        <button onClick={userLogout}>Log out</button>
+                        <span>{user.email ? user.email : user.name}</span>
+                        <button onClick={userLogout} disabled={isLoading3}>
+                            Log out
+                        </button>
                     </div>
                 )}
                 {!user && <button id="nav-btn">Log in</button>}

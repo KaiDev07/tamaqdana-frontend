@@ -5,6 +5,7 @@ import { useAuthContext } from '../hooks/useAuthContext'
 import { useLogout } from '../hooks/useLogout'
 import Navbar from '../components/Navbar'
 import ProductDetails from '../components/ProductDetails'
+import api from '../http/api'
 
 import { ADMIN, URL } from '../App'
 
@@ -13,7 +14,7 @@ import footerLogo from '../images/footer-logo.jpeg'
 const Admin = () => {
     const { products, dispatch } = useProductsContext()
     const { user } = useAuthContext()
-    const { logout } = useLogout()
+    const { isLoading3, logout } = useLogout()
 
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
@@ -21,54 +22,46 @@ const Admin = () => {
     const [emptyFields, setEmptyFields] = useState([])
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        try {
+            e.preventDefault()
 
-        if (user.email !== ADMIN) {
-            setError('You need to be logged in')
-            return
-        }
+            if (user.email !== ADMIN) {
+                setError('You need to be logged in')
+                return
+            }
 
-        const product = { name, description }
+            const product = { name, description }
 
-        const response = await fetch(`${URL}/products`, {
-            method: 'POST',
-            body: JSON.stringify(product),
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `bearer ${user.token}`,
-            },
-        })
-        const json = await response.json()
+            const response = await api.post(`${URL}/products`, product, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
 
-        if (!response.ok) {
-            setError(json.error)
-            setEmptyFields(json.emptyFields)
-        }
-
-        if (response.ok) {
             setName('')
             setDescription('')
             setError(null)
             setEmptyFields([])
-            dispatch({ type: 'CREATE_PRODUCT', payload: json })
+            dispatch({ type: 'CREATE_PRODUCT', payload: response.data })
+        } catch (error) {
+            setError(error.response.data.error)
+            setEmptyFields(error.response.data.emptyFields)
         }
     }
 
     const mobileNav = useRef()
 
-    const userLogout = () => {
-        logout()
+    const userLogout = async () => {
+        await logout()
     }
 
     useEffect(() => {
         const fetchProducts = async () => {
-            const response = await fetch(`${URL}/products`, {
-                headers: { Authorization: `bearer ${user.token}` },
-            })
-            const json = await response.json()
-
-            if (response.ok) {
-                dispatch({ type: 'SET_PRODUCTS', payload: json })
+            try {
+                const response = await api.get(`${URL}/products`)
+                dispatch({ type: 'SET_PRODUCTS', payload: response.data })
+            } catch (error) {
+                console.log(error.response.data.error)
             }
         }
 
@@ -86,6 +79,7 @@ const Admin = () => {
                 firstLink={'/'}
                 secondLink={null}
                 thirdLink={null}
+                isLoading3={isLoading3}
             />
             <main>
                 <form className="create" onSubmit={handleSubmit}>
@@ -226,7 +220,9 @@ const Admin = () => {
                 {user && (
                     <div className="userDiv">
                         <span>{user.email}</span>
-                        <button onClick={userLogout}>Log out</button>
+                        <button onClick={userLogout} disabled={isLoading3}>
+                            Log out
+                        </button>
                     </div>
                 )}
                 {!user && <button id="nav-btn">Log in</button>}

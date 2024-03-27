@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import GoogleButton from 'react-google-button'
 import { useSignup } from '../hooks/useSignup'
 import { useLogin } from '../hooks/useLogin'
 import { useAuthContext } from '../hooks/useAuthContext'
@@ -33,9 +34,8 @@ const Home = () => {
     const { error1, isLoading1, signup } = useSignup()
     const { error2, isLoading2, login } = useLogin()
     const { user } = useAuthContext()
-    const { logout } = useLogout()
+    const { isLoading3, logout } = useLogout()
 
-    const checkbox = useRef()
     const formCanvas = useRef()
 
     const handleSubmit1 = async (e) => {
@@ -47,13 +47,11 @@ const Home = () => {
     const handleSubmit2 = async (e) => {
         e.preventDefault()
 
-        const checked = checkbox.current.checked
-
-        await login(email2, password2, checked)
+        await login(email2, password2)
     }
 
-    const userLogout = () => {
-        logout()
+    const userLogout = async () => {
+        await logout()
     }
 
     useEffect(() => {
@@ -152,6 +150,13 @@ const Home = () => {
         rightCircle.current.style.background = 'none'
     }
 
+    function googleAuth() {
+        window.open(
+            `${process.env.REACT_APP_API_URL}/user/auth/google`,
+            '_self'
+        )
+    }
+
     return (
         <>
             <Navbar
@@ -161,6 +166,7 @@ const Home = () => {
                 firstLink={'#welcome'}
                 secondLink={'#testimonials'}
                 thirdLink={'#footer'}
+                isLoading3={isLoading3}
             />
             <main>
                 <section id="welcome">
@@ -578,8 +584,10 @@ const Home = () => {
                 </span>
                 {user && (
                     <div className="userDiv">
-                        <span>{user.email}</span>
-                        <button onClick={userLogout}>Log out</button>
+                        <span>{user.email ? user.email : user.name}</span>
+                        <button onClick={userLogout} disabled={isLoading3}>
+                            Log out
+                        </button>
                     </div>
                 )}
                 {!user && (
@@ -649,6 +657,20 @@ const Home = () => {
                                     value="Sign Up"
                                     disabled={isLoading1}
                                 />
+                                <div
+                                    style={{
+                                        textAlign: 'center',
+                                        margin: '15px 0',
+                                    }}
+                                >
+                                    OR
+                                </div>
+                                <GoogleButton
+                                    onClick={googleAuth}
+                                    style={{
+                                        margin: '0 auto',
+                                    }}
+                                />
                             </form>
                             {error1 && <div className="error">{error1}</div>}
                             <div className="help-text">
@@ -681,19 +703,26 @@ const Home = () => {
                                         setPassword2(e.target.value)
                                     }
                                 />
-                                <input
-                                    type="checkbox"
-                                    className="checkbox"
-                                    id="remember_me"
-                                    ref={checkbox}
-                                />
-                                <label htmlFor="remember_me">Remember me</label>
 
                                 <input
                                     type="submit"
                                     className="button"
                                     value="Login"
                                     disabled={isLoading2}
+                                />
+                                <div
+                                    style={{
+                                        textAlign: 'center',
+                                        margin: '15px 0',
+                                    }}
+                                >
+                                    OR
+                                </div>
+                                <GoogleButton
+                                    onClick={googleAuth}
+                                    style={{
+                                        margin: '0 auto',
+                                    }}
                                 />
                             </form>
                             {error2 && <div className="error">{error2}</div>}

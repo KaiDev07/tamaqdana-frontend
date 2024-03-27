@@ -1,37 +1,37 @@
 import { useState } from 'react'
 import { useAuthContext } from './useAuthContext'
-import { URL } from '../App'
+import api from '../http/api'
 
 export const useSignup = () => {
-    const [error1, setError] = useState(null)
-    const [isLoading1, setIsLoading] = useState(false)
+    const [isLoading1, setIsLoading1] = useState(false)
+    const [error1, setError1] = useState(null)
     const { dispatch } = useAuthContext()
 
     const signup = async (email, password) => {
-        setIsLoading(true)
-        setError(null)
+        try {
+            setIsLoading1(true)
+            setError1(null)
 
-        const response = await fetch(`${URL}/signup`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
-        })
+            const response = await api.post('/user/registration', {
+                email,
+                password,
+            })
+            console.log(response)
 
-        const json = await response.json()
+            setIsLoading1(false)
 
-        if (!response.ok) {
-            setIsLoading(false)
-            setError(json.error)
-        }
+            localStorage.setItem('token', response.data.accessToken)
 
-        if (response.ok) {
-            setIsLoading(false)
-
-            localStorage.setItem('user', JSON.stringify(json))
-
-            dispatch({ type: 'LOGIN', payload: json })
+            dispatch({
+                type: 'LOGIN',
+                payload: response.data.user,
+            })
+        } catch (error) {
+            setIsLoading1(false)
+            setError1(error.response.data.error)
+            console.log(error.response.data.error)
         }
     }
 
-    return { error1, isLoading1, signup }
+    return { isLoading1, error1, signup }
 }

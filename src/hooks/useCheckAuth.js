@@ -2,33 +2,26 @@ import { useState } from 'react'
 import { useAuthContext } from './useAuthContext'
 import api from '../http/api'
 
-export const useLogin = () => {
-    const [isLoading2, setIsLoading2] = useState(false)
-    const [error2, setError2] = useState(null)
+export const useCheckAuth = () => {
+    const [isLoading4, setIsLoading4] = useState(false)
     const { dispatch } = useAuthContext()
 
-    const login = async (email, password) => {
+    const checkAuth = async () => {
         try {
-            setIsLoading2(true)
-            setError2(null)
-
-            const response = await api.post('/user/login', { email, password })
+            setIsLoading4(true)
+            const response = await api.get('/user/refresh')
             console.log(response)
-
-            setIsLoading2(false)
-
+            setIsLoading4(false)
             localStorage.setItem('token', response.data.accessToken)
-
             dispatch({
                 type: 'LOGIN',
                 payload: response.data.user,
             })
         } catch (error) {
-            setIsLoading2(false)
-            setError2(error.response.data.error)
+            setIsLoading4(false)
             console.log(error.response.data.error)
         }
     }
 
-    return { isLoading2, error2, login }
+    return { isLoading4, checkAuth }
 }
